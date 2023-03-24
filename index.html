@@ -1,59 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+<html>
+	
+	<head>
+		<meta charset="utf-8">
+		<title>Learning CSS</title>
+		<link rel="stylesheet" href="css/screen.css">
+	</head>
+	
+	<body>
+		
+		<article>
+			<header>
+				<h1>Website Title</h1>
+				<p>Website slogan included here.</p>
 
-  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-  
-  <title>Frontend Mentor | Product preview card component</title>
-  
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
+				<nav class="site-nav">
+					<ul class="group">
+						<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygULcmljayByb2xsZWQ%3D">Início</a></li>
+						<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygULcmljayByb2xsZWQ%3D">Portfólio</a></li>
+						<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygULcmljayByb2xsZWQ%3D">Sobre</a></li>
+						<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygULcmljayByb2xsZWQ%3D">Contato</a></li>
+					</ul>
+				</nav>
+			</header>
+			
+			<div class="content group">
+				
+				<div class="main">
+					<p>This is the main area (or column). Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
-  <!-- Google fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Montserrat:wght@500&display=swap" rel="stylesheet">
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				</div>
 
+				<aside class="side">
+					<p>This is the sidebar. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu.</p>
+				</aside>
+				
+			</div>
 
-
-  
-
-
-</head>
-<body>
-  <main>
-    <article class="product">
-      <picture class="product__img">
-        <source srcset="images/image-product-desktop.jpg" media="(min-width: 600px)"">
-        <img src="images/image-product-mobile.jpg" 
-        alt="Gabrielle Essence Perfume laying on a white surface with some leaves beside it">
-      </picture>
-
-      <div class="product__content">
-        <p class="product__category">Perfume</p> 
-
-        <h1 class="product__title">Gabrielle Essence Eau De Parfum</h1>
-
-        <p>A floral, solar and voluptuous interpretation composed by Olivier Polge, 
-          Perfumer-Creator for the House of CHANEL.</p>
-        
-        <div class="flex-group">
-          <p class="product__price">
-            <span class="visually-hidden">Current price:</span>
-            $149.99
-          </p>
-          <p class="product__original-price">
-            <span class="visually-hidden">Original price:</span>
-            <s>$169.99</s>
-          </p>
-        </div>
-
-        <button class="button" data-icon="shopping-cart">Add to Cart</button>
-      </div>
-
-    </article>
-  </main>
-</body>
+			<footer>
+				<p>&copy; 2014 - This is the footer.</p>
+			</footer>
+		</article>
+		
+	</body>
+	
 </html>
