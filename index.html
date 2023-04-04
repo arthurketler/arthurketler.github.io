@@ -1,48 +1,226 @@
 <!DOCTYPE html>
-<html>
-	
-	<head>
-		<meta charset="utf-8">
-		<title>Learning CSS</title>
-		<link rel="stylesheet" href="css/screen.css">
-	</head>
-	
-	<body>
-		
-		<article>
-			<header>
-				<h1>Website Title</h1>
-				<p>Website slogan included here.</p>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Ping Pong</title>
+ <style>
+  * {
+   overflow: hidden;
+   margin: 0;
+   padding: 0;
+  }
+ </style>
+</head>
+<body>
 
-				<nav class="site-nav">
-					<ul class="group">
-						<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygULcmljayByb2xsZWQ%3D">Início</a></li>
-						<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygULcmljayByb2xsZWQ%3D">Portfólio</a></li>
-						<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygULcmljayByb2xsZWQ%3D">Sobre</a></li>
-						<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygULcmljayByb2xsZWQ%3D">Contato</a></li>
-					</ul>
-				</nav>
-			</header>
-			
-			<div class="content group">
-				
-				<div class="main">
-					<p>This is the main area (or column). Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+ <canvas>
 
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-				</div>
+ </canvas>
 
-				<aside class="side">
-					<p>This is the sidebar. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu.</p>
-				</aside>
-				
-			</div>
+ <script>
+  //constante do canvas
+  const canvasEl = document.querySelector("canvas"), canvasCtx = canvasEl.getContext("2d"), gapX = 10;
 
-			<footer>
-				<p>&copy; 2014 - This is the footer.</p>
-			</footer>
-		</article>
-		
-	</body>
-	
+
+  const mouse = {
+   x: 0,
+   y: 0
+  }
+
+  const field = {
+   //define tamanho do campo/jogo
+   w: window.innerWidth,
+   h: window.innerHeight,
+
+   //desenha o campo
+   draw: function () {
+   canvasCtx.fillStyle = "#286047";
+   canvasCtx.fillRect(0, 0, this.w, this.h);
+   }
+
+  }
+
+  const line = {
+   //define tamanho
+   w: 15,
+   h: field.h,
+
+
+   //desenha a linha(rede)
+   draw: function () {
+    canvasCtx.fillStyle = "#fff";
+    canvasCtx.fillRect((field.w - this.w) / 2, 0, this.w, this.h);
+   }
+
+  }
+
+  const leftPaddle = {
+   //define coordenadas e tamanho
+   x: gapX,
+   y: (field.h - 200) / 2,
+   w: line.w,
+   h: 200,
+
+   //move a raquete com o mouse
+   _move: function () {
+    this.y = mouse.y - this.h / 2;
+   },
+
+
+   //desenha a raquete esquerda
+   draw: function () {
+    canvasCtx.fillStyle = "#fff";
+    canvasCtx.fillRect(this.x, this.y, this.w, this.h);
+    this._move();
+   }
+
+  }
+
+  const rightPaddle = {
+   //define coordenadas e tamanho
+   x: field.w - (gapX + line.w),
+   y: (field.h - 200) / 2,
+   w: line.w,
+   h: 200,
+
+   //move a raquete com a bolinha
+   _move: function () {
+    this.y = ball.y - this.h / 2;
+   },
+
+
+   //desenha a raquete direita
+   draw: function () {
+    canvasCtx.fillStyle = "#fff";
+    canvasCtx.fillRect(this.x, this.y, this.w, this.h);
+    this._move();
+   }
+
+  }
+
+  const score = {
+   //define placar posição e tamanho
+   human: 1,
+   computer: 2,
+
+   
+   //desenha o placar
+   draw: function () {
+    canvasCtx.font = "bold 72px Arial";
+    canvasCtx.textAlign = "center";
+    canvasCtx.textBaseline = "top";
+    canvasCtx.fillStyle = "#01341d";
+    
+    canvasCtx.fillText(this.human, field.w * 0.25, (field.h - 72) / 2);
+    canvasCtx.fillText(this.computer, field.w * 0.75, (field.h - 72) / 2);
+   }
+   
+  }
+
+  const ball = {
+   //define coordenadas e tamanho
+   x: field.w / 2,
+   y: field.h / 2,
+   r: 20,
+   
+   //define margens para fisica
+   marginRight: field.w - this.r - rightPaddle.w - gapX,
+   marginLeft: this.r + rightPaddle.w + gapX,
+   marginTop: this.r,
+   marginBottom: field.h - this.r,
+
+   
+
+   //define velocidade e direção
+   speed: 5,
+   directionX: 1,
+   directionY: 1,
+
+   //move a bolinha
+   _move: function () {
+    this.x += this.directionX * this.speed;
+    this.y += this.directionY * this.speed; 
+   },
+
+   //decide diração da bolinha
+   _reverseX: function () {
+    this.directionX *= -1;
+   },
+
+   _reverseY: function () {
+    this.directionY *= -1;
+   },
+
+   _calcPosition: function () {
+    if (this.x > field.w || this.x < 0) {
+     this._reverseX();
+    }
+    if (this.y > field.h || this.y < 0) {
+     this._reverseY();
+    }
+   },
+   
+   //desenha a bolinha
+   draw: function () {
+    canvasCtx.fillStyle = "#fff";
+    canvasCtx.beginPath();
+    canvasCtx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
+    canvasCtx.fill();
+
+    this._move();
+    this._calcPosition();
+   }
+   
+  }
+
+  function setup() {
+   canvasEl.width = canvasCtx.width = field.w;
+   canvasEl.height = canvasCtx.height = field.h;
+  }
+
+  function draw() {
+   field.draw();
+   line.draw();
+
+   leftPaddle.draw();
+   rightPaddle.draw();
+
+   score.draw();
+
+   ball.draw();
+  }
+
+  window.animateFrame = (function () {
+   return (
+    window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.oRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
+    function (callback) {
+     return window.setTimeout(callback, 1000 / 60)
+    }
+   )
+  })()
+
+  //codigo principal
+  function main() {
+   animateFrame(main);
+   draw();
+  }
+
+  setup();
+  main();
+
+  canvasEl.addEventListener("mousemove", function (e) {
+   mouse.x = e.pageX;
+   mouse.y = e.pageY;
+  })
+
+ </script>
+
+ 
+</body>
 </html>
