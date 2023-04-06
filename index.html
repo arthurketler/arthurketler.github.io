@@ -102,8 +102,8 @@
 
   const score = {
    //define placar posição e tamanho
-   human: 1,
-   computer: 2,
+   human: 0,
+   computer: 0,
 
    
    //desenha o placar
@@ -123,13 +123,14 @@
    //define coordenadas e tamanho
    x: field.w / 2,
    y: field.h / 2,
+   //se mudar r tem que mudar nos margins
    r: 20,
    
    //define margens para fisica
-   marginRight: field.w - this.r - rightPaddle.w - gapX,
-   marginLeft: this.r + rightPaddle.w + gapX,
-   marginTop: this.r,
-   marginBottom: field.h - this.r,
+   marginRight: field.w - 20 - rightPaddle.w - gapX,
+   marginLeft: 20 + rightPaddle.w + gapX,
+   marginTop: 20,
+   marginBottom: field.h - 20,
 
    
 
@@ -141,10 +142,10 @@
    //move a bolinha
    _move: function () {
     this.x += this.directionX * this.speed;
-    this.y += this.directionY * this.speed; 
+    this.y += this.directionY * this.speed;
    },
 
-   //decide diração da bolinha
+   //decide direção da bolinha
    _reverseX: function () {
     this.directionX *= -1;
    },
@@ -153,11 +154,52 @@
     this.directionY *= -1;
    },
 
+   //pontos dos jogadores
+   _pontoJogador1: function () {
+    score.human +=1;
+    this.x = field.w / 2;
+    this.y = field.h / 2;
+    do {
+     this.directionX = Math.round((Math.random() - 0.5) * 2);
+     this.directionY = Math.round((Math.random() - 0.5) * 2);
+    }while (this.directionX == 0 || this.directionY == 0);
+   },
+
+   _pontoJogador2: function () {
+    score.computer +=1;
+    this.x = field.w / 2;
+    this.y = field.h / 2;
+    do {
+     this.directionX = Math.round((Math.random() - 0.5) * 2);
+     this.directionY = Math.round((Math.random() - 0.5) * 2);
+    }while (this.directionX == 0 || this.directionY == 0);
+   },
+
    _calcPosition: function () {
-    if (this.x > field.w || this.x < 0) {
-     this._reverseX();
+    //ponto jogador 1
+    if (this.x > this.marginRight) {
+     if (rightPaddle.y < this.y && this.y < rightPaddle.y + rightPaddle.h) {
+      this._reverseX();
+     } else {
+      this._pontoJogador1();
+     }
     }
-    if (this.y > field.h || this.y < 0) {
+
+    //ponto jogador 2
+    if (this.x < this.marginLeft) {
+     if (leftPaddle.y < this.y && this.y < leftPaddle.y + leftPaddle.h) {
+      this._reverseX();
+     } else {
+      this._pontoJogador2();
+     }
+    }
+
+
+
+
+
+    //mantem nas margens top e bottom
+    if (this.y > this.marginBottom || this.y < this.marginTop) {
      this._reverseY();
     }
    },
@@ -169,8 +211,8 @@
     canvasCtx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
     canvasCtx.fill();
 
-    this._move();
     this._calcPosition();
+    this._move();
    }
    
   }
@@ -214,6 +256,7 @@
   setup();
   main();
 
+  //le o mouse
   canvasEl.addEventListener("mousemove", function (e) {
    mouse.x = e.pageX;
    mouse.y = e.pageY;
