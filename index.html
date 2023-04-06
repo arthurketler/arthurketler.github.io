@@ -173,6 +173,9 @@
      this.directionX = Math.round((Math.random() - 0.5) * 2);
      this.directionY = Math.round((Math.random() - 0.5) * 2);
     }while (this.directionX == 0 || this.directionY == 0);
+    if (score.computer > 9) {
+     window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUIcmljIHJvbGw%3D";
+    }
    },
 
    _calcPosition: function () {
