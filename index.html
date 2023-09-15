@@ -180,23 +180,13 @@
             }
         }
 
-        //funcao de copia de texto
-        function copy(){
-            navigator.clipboard.writeText(passwordTextEl.value);
-        }
-
-        //atribui a copia ao botao de copia
-        document.querySelector("#copy-1").addEventListener("click", copy);
-        document.querySelector("#copy-2").addEventListener("click", copy);
-
-
+        
         //atribui a geracao ao slide
         passwordSizeEl.addEventListener("input", function() {
             passwordLength = passwordSizeEl.value;
             generatePassword(passwordLength);
             document.querySelector("#password-legth-text").innerHTML = passwordLength;
         });
-        
 
         //atribui os botoes ao renew
         uppercaseEl.addEventListener("click", generatePassword);
@@ -205,6 +195,14 @@
         document.querySelector("#renew").addEventListener("click", generatePassword);
 
 
+        //funcao de copia de texto
+        function copy(){
+            navigator.clipboard.writeText(passwordTextEl.value);
+        }
+
+        //atribui a copia ao botao de copia
+        document.querySelector("#copy-1").addEventListener("click", copy);
+        document.querySelector("#copy-2").addEventListener("click", copy);
 
 
         //configuracao inicial
