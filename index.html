@@ -79,7 +79,6 @@
 
                 </div>
             </div>
-        </section>            
         </section>
 
         <!-- botao de copia -->
@@ -131,20 +130,56 @@
             passwordTextEl.value = password;
 
             calculateQuality();
+            calculateFontSize();
         }
 
         //funcao de calculo de seguranca
         function calculateQuality () {
-            const quantChar = Math.round((passwordLength / 64) * 25);
-            let optionsChar = (uppercaseEl.checked) ? 25 : 0;
-            optionsChar += (numbersEl.checked) ? 25 : 0;
-            optionsChar += (symbolsEl.checked) ? 25 : 0;
-            
-
-            const percent = quantChar +  optionsChar * quantChar / 25;
+            //calculo de percentual
+            const quantChar = Math.round((passwordLength / 64) * 61);
+            const percent = Math.round(quantChar 
+            + ((uppercaseEl.checked ? 13 : 0) + (numbersEl.checked ? 13 : 0) + (symbolsEl.checked ? 13 : 0))
+            * quantChar / 61);
             securityBarEl.style.width = `${percent}%`;
+
+            //define cor e estilo
+            (percent == 100) ? securityBarEl.classList.add("completed"): securityBarEl.classList.remove("completed") ;
+            if (percent > 69) {
+                securityBarEl.classList.add ("safe");
+                securityBarEl.classList.remove ("warning");
+                securityBarEl.classList.remove ("critical");
+            } else if (percent > 35) {
+                securityBarEl.classList.remove ("safe");
+                securityBarEl.classList.add ("warning");
+                securityBarEl.classList.remove ("critical");
+            } else {
+                securityBarEl.classList.remove ("safe");
+                securityBarEl.classList.remove ("warning");
+                securityBarEl.classList.add ("critical");
+            }
         }
         
+        //funcao de ajuste de tamanho da senha
+        function calculateFontSize () {
+            if (passwordLength > 45) {
+                passwordTextEl.classList.remove("font-sm");
+                passwordTextEl.classList.remove("font-xs");
+                passwordTextEl.classList.add("font-xxs");
+            } else if (passwordLength > 32) {
+                passwordTextEl.classList.remove("font-sm");
+                passwordTextEl.classList.add("font-xs");
+                passwordTextEl.classList.remove("font-xxs");
+            } else if (passwordLength > 22) {
+                passwordTextEl.classList.add("font-sm");
+                passwordTextEl.classList.remove("font-xs");
+                passwordTextEl.classList.remove("font-xxs");
+            }else {
+                passwordTextEl.classList.remove("font-sm");
+                passwordTextEl.classList.remove("font-xs");
+                passwordTextEl.classList.remove("font-xxs");
+            }
+        }
+
         //funcao de copia de texto
         function copy(){
             navigator.clipboard.writeText(passwordTextEl.value);
@@ -161,18 +196,14 @@
             generatePassword(passwordLength);
             document.querySelector("#password-legth-text").innerHTML = passwordLength;
         });
-
         
-        //atribui o botao de renew
-        document.querySelector("#renew").addEventListener("click", function() {
-            passwordLength = passwordSizeEl.value;
-            generatePassword(passwordLength);
-        });
 
         //atribui os botoes ao renew
         uppercaseEl.addEventListener("click", generatePassword);
         numbersEl.addEventListener("click", generatePassword);
         symbolsEl.addEventListener("click", generatePassword);
+        document.querySelector("#renew").addEventListener("click", generatePassword);
+
 
 
 
