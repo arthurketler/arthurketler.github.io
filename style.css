@@ -18,6 +18,7 @@ main {
     font-size: 2rem;
     font-weight: bold;
     padding-bottom: 1.5rem;
+    padding-top: 1.5rem;
 }
 .hero .subtitle {
     font-size: 1.125rem;
