@@ -1,195 +1,203 @@
-/*
-  1. Use a more-intuitive box-sizing model.
-*/
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-  }
-  /*
-    2. Remove default margin
-  */
-  * {
-    margin: 0;
-  }
-  /*
-    3. Allow percentage-based heights in the application
-  */
-  html, body {
-    height: 100%;
-  }
-  /*
-    Typographic tweaks!
-    4. Add accessible line-height
-    5. Improve text rendering
-  */
-  body {
-    line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
-  }
-  /*
-    6. Improve media defaults
-  */
-  img, picture, video, canvas, svg {
-    display: block;
-    max-width: 100%;
-  }
-  /*
-    7. Remove built-in form typography styles
-  */
-  input, button, textarea, select {
-    font: inherit;
-  }
-  /*
-    8. Avoid text overflows
-  */
-  p, h1, h2, h3, h4, h5, h6 {
-    overflow-wrap: break-word;
-  }
-
-  h1, h2, h3 {
-    line-height: 1;
-  }
-
-
-  /*
-    9. Create a root stacking context
-  */
-  #root, #__next {
-    isolation: isolate;
-  }
-
-:root {
-    --clr-primary-500: hsl(158, 36%, 20%);
-    --clr-primary-400: hsl(158, 36%, 37%);
-    --clr-secondary-200: hsl(30, 38%, 92%);
-
-    --clr-neutral-900: hsl(212, 21%, 14%);
-    --clr-neutral-400: hsl(228, 12%, 48%);
-    --clr-neutral-100: hsl(0, 0%, 100%);
-    
-    --fw-regular: 500;
-    --fw-bold: 700;
-
-    --fs-regural: 0.875rem;
-     
-
-    --ff-accent: 'Fraunces', serif;
-    --ff-base: 'Montserrat', sans-serif;
-
-}
-
-
-
-
-
-/*estilo geral*/
-
 body {
-    font-family: var(--ff-base);
-    font-weight: var(--fw-regular);
-    font-size: var(--fs-regural);
-    color: var(--clr-neutral-400);
-    background-color: var(--clr-secondary-200);
-
-    /* esse projeto somente */
-    display: grid;
-    place-content: center;
-    margin: 1rem;
+    background-color: #f8fafd;
+    font-family: 'Inter', sans-serif;
+    color: #252525;
+    padding: 2rem;
 }
 
-/* utilidades */
-.flex-group {
+main {
+    max-width: 780px;
+    margin: 0 auto;
+}
+
+.hero {
+    text-align: center;
+    padding-bottom: 3rem;
+}
+.hero .title {
+    font-size: 2rem;
+    font-weight: bold;
+    padding-bottom: 1.5rem;
+}
+.hero .subtitle {
+    font-size: 1.125rem;
+    color: #828282;
+}
+
+.box {
+    background: white;
+    box-shadow: 0 1px 2px rgba(132, 148, 165, 0.1);
+    border-radius: 8px;
+    margin-bottom: 3rem;
+}
+.password {
     display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
     align-items: center;
+    padding: 1rem 1.5rem;
 }
-
-
-.visually-hidden:not(:focus):not(:active) {
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    height: 1px;
-    overflow: hidden;
-    position: absolute;
-    white-space: nowrap;
-    width: 1px;
+.password .text {
+    flex: 1;
 }
-
-/*botao*/
-.button {
+.password .text input {
+    font-family: "Inconsolata", serif;
+    font-size: 3rem;
+    border: none;
+    outline: none;
+    cursor: default;
+    height: 52px;
+    width: 100%;
+    transition: all 0.2s;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.password .actions button {
+    background-color: transparent;
+    border: none;
     cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    gap: 0.75rem;
-    justify-content: center;
-    align-items: center;
-
-    border: 0;
-    border-radius: 0.5rem;
-    padding: 0.75em 1.5em;
-    color: var(--clr-neutral-100);
-    background-color: var(--clr-primary-400);
-    font-weight: var(--fw-bold);
-    font-size: 0.925rem;
+    opacity: 0.7;
+    transition: opacity 0.2s;
 }
 
-.button[data-icon="shopping-cart"]::before {
-  content: "";
-  background-image: url('images/icon-cart.svg');
-  width: 15px;
-  height: 16px;
-  /*background: red;*/
+.security-indicator {
+    height: 10px;
+    background-color: #ddd;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.security-indicator .bar {
+    height: 10px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+
+    transition: all 0.2s;
+}
+.security-indicator .bar.completed{
+    border-top-right-radius: 0;
+}
+.security-indicator .bar.critical{
+    background-color: #eb5757;
+}
+.security-indicator .bar.warning{
+    background-color: #f2c94c;
+}
+.security-indicator .bar.safe{
+    background-color: #27ae60;
 }
 
-.button:is(:hover, :focus) {
-    background-color: var(--clr-primary-500);
+.customize {
+    padding: 1rem 1.5rem;
+}
+.customize .title {
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    padding-bottom: 0.75;
+}
+.customize .actions {
+    display: flex;
+    gap: 3rem;
+    color: #828282;
+}
+.customize .password-length {
+    flex: 1;
+}
+.customize .password-length .slider {
+    appearance: none;
+    -webkit-appearance: none;
+    height: 10px;
+    background: #dddddd;
+    outline: none;
+    border-radius: 8px;
+    width: 100%;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    margin-top: 1rem;
+}
+.customize .password-length .slider:hover {
+    opacity: 1;
+}
+.customize .password-length .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    background: #9b51e0;
+    cursor: pointer;
+}
+.customize .password-length .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    background: #9b51e0;
+    cursor: pointer;
 }
 
-
-
-/* article central */
-.product {
-    --content-padding: 1.5rem;
-    --content-spacing: 1rem;
-
-
-    display: grid;
-    background-color: var(--clr-neutral-100);
-    border-radius: 0.5rem;
-    overflow: hidden;
-    max-width: 600px;
-  }
-
-@media (min-width: 600px){
-  .product {
-    --content-padding: 2rem;
-    grid-template-columns: 1fr 1fr;
-  }
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.checkbox-container input {
+    position: absolute;
+    height: 0;
+    width: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+.checkbox-container .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #dddddd;
+    transition: all 0.2s;
+}
+.checkbox-container:hover input ~ .checkmark {
+    background-color: #cccccc;
+}
+.checkbox-container input:checked ~ .checkmark {
+    background-color: #9b51e0;
+}
+.checkbox-container .checkmark::after {
+    content: "";
+    position: absolute;
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 13px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
 }
 
-/*content central*/
-.product__content {
-  padding: var(--content-padding);
-  display: grid;
-  gap: var(--content-spacing);
+.submit {
+    text-align: center;
 }
-
-.product__category {
-    font-size: 0.8125;
-    text-transform: uppercase;
-    letter-spacing: 5px;
+.submit button {
+    background-color: #bb6bd9;
+    font-size: 1.375rem;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 1rem 2rem;
+    transition: all 0.2s;
 }
-
-.product__title {
-    font-size: 2rem;
-    font-family: var(--ff-accent);
-    color: var(--clr-neutral-900);
-}
-
-.product__price {
-    color: var(--clr-primary-400);
-    font-family: var(--ff-accent);
-    font-size: 2rem;
+.submit button:hover {
+    background-color: #9b51e0;
 }

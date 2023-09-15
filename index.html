@@ -1,272 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta http-equiv="X-UA-Compatible" content="IE=edge">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Ping Pong</title>
- <style>
-  * {
-   overflow: hidden;
-   margin: 0;
-   padding: 0;
-  }
- </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Senha</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reset.css">
+
+    <!-- fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <main>
+        <section class="hero">
+            <h1 class="title">Gerador de senha</h1>
+            <p class="subtitle">Utilize o nosso gerador online para criar uma senha forte e segura</p>
+        </section>
 
- <canvas>
+        <section class="box">
+            <div class="password">
+                <div class="text">
+                    <input type="text" name="password-text" id="password-text">            
+                </div>
+                <div class="actions">
+                    <button id="copy-2">
+                        <img src="copy.svg" width="42">
+                    </button>
+                    <button id="renew">
+                        <img src="renew.svg" width="42">
+                    </button>
+                </div>
+            </div>
+            <div class="security-indicator">
+                <div
+                    id="security-indicator-bar"
+                    class="bar safe"
+                    style="width: 90%"
+                ></div>
+            </div>
+        </section>
 
- </canvas>
+        
+        <section class="box customize">
+            <h3 class="title">Personalizar</h3>
+            <div class="actions">
+                <div class="password-length">
+                    <p>Tamanho: <span id="password-legth-text">16</span></p>
+                    <input
+                        type="range" 
+                        name="password-size"
+                        class="slider"
+                        id="password-size"
+                        value="16"
+                        min="4"
+                        max="64"
+                    />
+                </div>
+                <div class="password-config">
+                    <label class="checkbox-container">
+                        <span>Maiuscula</span>
+                        <input type="checkbox" id="uppercase-check" checked>
+                        <span class="checkmark"></span>
+                    </label>
 
- <script>
-  //constante do canvas
-  const canvasEl = document.querySelector("canvas"), canvasCtx = canvasEl.getContext("2d"), gapX = 10;
+                    <label class="checkbox-container">
+                        <span>Numeros</span>
+                        <input type="checkbox" id="numbers-check" checked>
+                        <span class="checkmark"></span>
+                    </label>
 
+                    <label class="checkbox-container">
+                        <span>Simbolos</span>
+                        <input type="checkbox" id="symbols-check" checked>
+                        <span class="checkmark"></span>
+                    </label>
 
-  const mouse = {
-   x: 0,
-   y: 0
-  }
+                </div>
+            </div>
+        </section>            
+        </section>
 
-  const field = {
-   //define tamanho do campo/jogo
-   w: window.innerWidth,
-   h: window.innerHeight,
+        <!-- botao de copia -->
+        <div class="submit">
+            <button id="copy-1">Copiar senha</button>
+        </div>
+        
+    </main>
 
-   //desenha o campo
-   draw: function () {
-   canvasCtx.fillStyle = "#286047";
-   canvasCtx.fillRect(0, 0, this.w, this.h);
-   }
-
-  }
-
-  const line = {
-   //define tamanho
-   w: 15,
-   h: field.h,
-
-
-   //desenha a linha(rede)
-   draw: function () {
-    canvasCtx.fillStyle = "#fff";
-    canvasCtx.fillRect((field.w - this.w) / 2, 0, this.w, this.h);
-   }
-
-  }
-
-  const leftPaddle = {
-   //define coordenadas e tamanho
-   x: gapX,
-   y: (field.h - 200) / 2,
-   w: line.w,
-   h: 200,
-
-   //move a raquete com o mouse
-   _move: function () {
-    this.y = mouse.y - this.h / 2;
-   },
-
-
-   //desenha a raquete esquerda
-   draw: function () {
-    canvasCtx.fillStyle = "#fff";
-    canvasCtx.fillRect(this.x, this.y, this.w, this.h);
-    this._move();
-   }
-
-  }
-
-  const rightPaddle = {
-   //define coordenadas e tamanho
-   x: field.w - (gapX + line.w),
-   y: (field.h - 200) / 2,
-   w: line.w,
-   h: 200,
-
-   //move a raquete com a bolinha
-   _move: function () {
-    this.y = ball.y - this.h / 2;
-   },
-
-
-   //desenha a raquete direita
-   draw: function () {
-    canvasCtx.fillStyle = "#fff";
-    canvasCtx.fillRect(this.x, this.y, this.w, this.h);
-    this._move();
-   }
-
-  }
-
-  const score = {
-   //define placar posição e tamanho
-   human: 0,
-   computer: 0,
-
-   
-   //desenha o placar
-   draw: function () {
-    canvasCtx.font = "bold 72px Arial";
-    canvasCtx.textAlign = "center";
-    canvasCtx.textBaseline = "top";
-    canvasCtx.fillStyle = "#01341d";
     
-    canvasCtx.fillText(this.human, field.w * 0.25, (field.h - 72) / 2);
-    canvasCtx.fillText(this.computer, field.w * 0.75, (field.h - 72) / 2);
-   }
-   
-  }
 
-  const ball = {
-   //define coordenadas e tamanho
-   x: field.w / 2,
-   y: field.h / 2,
-   //se mudar r tem que mudar nos margins
-   r: 20,
-   
-   //define margens para fisica
-   marginRight: field.w - 20 - rightPaddle.w - gapX,
-   marginLeft: 20 + rightPaddle.w + gapX,
-   marginTop: 20,
-   marginBottom: field.h - 20,
+    <script>
+        //elementos da pagina
+        const passwordTextEl = document.querySelector("#password-text");//caixa texto
 
-   
+        const passwordSizeEl = document.querySelector("#password-size");//opcoes da senha
+        const uppercaseEl = document.querySelector("#uppercase-check");
+        const numbersEl = document.querySelector("#numbers-check");
+        const symbolsEl = document.querySelector("#symbols-check");
 
-   //define velocidade e direção
-   speed: 5,
-   directionX: 1,
-   directionY: 1,
+        const securityBarEl = document.querySelector("#security-indicator-bar");//barra de nivel de seguranca
 
-   //move a bolinha
-   _move: function () {
-    this.x += this.directionX * this.speed;
-    this.y += this.directionY * this.speed;
-   },
+        let passwordLength = 16;
+        
+        //funcao da geracao de senha
+        function generatePassword() {
+            //variaveis de caracteres
+            let chars = "abcdefghjklmnpqrstuvwxyz";
+            const uppercaseChars = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+            const numbersChars = "123456789";
+            const symbolsChars = "?!@&*()[]";
 
-   //decide direção da bolinha
-   _reverseX: function () {
-    this.directionX *= -1;
-   },
+            //
+            if (uppercaseEl.checked) {
+                chars += uppercaseChars;
+            }
+            if (numbersEl.checked) {
+                chars += numbersChars;
+            }
+            if (symbolsEl.checked) {
+                chars += symbolsChars;
+            }
 
-   _reverseY: function () {
-    this.directionY *= -1;
-   },
+            let password = "";
+            for (i = 0; i < passwordLength; i++) {
+                const randomNumber = Math.floor(Math.random() * chars.length);
+                password += chars[randomNumber];
+            }
+            passwordTextEl.value = password;
 
-   //pontos dos jogadores
-   _pontoJogador1: function () {
-    score.human +=1;
-    this.x = field.w / 2;
-    this.y = field.h / 2;
-    do {
-     this.directionX = Math.round((Math.random() - 0.5) * 2);
-     this.directionY = Math.round((Math.random() - 0.5) * 2);
-    }while (this.directionX == 0 || this.directionY == 0);
-   },
+            calculateQuality();
+        }
 
-   _pontoJogador2: function () {
-    score.computer +=1;
-    this.x = field.w / 2;
-    this.y = field.h / 2;
-    do {
-     this.directionX = Math.round((Math.random() - 0.5) * 2);
-     this.directionY = Math.round((Math.random() - 0.5) * 2);
-    }while (this.directionX == 0 || this.directionY == 0);
-    if (score.computer > 9) {
-     window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUIcmljIHJvbGw%3D";
-    }
-   },
+        //funcao de calculo de seguranca
+        function calculateQuality () {
+            const quantChar = Math.round((passwordLength / 64) * 25);
+            let optionsChar = (uppercaseEl.checked) ? 25 : 0;
+            optionsChar += (numbersEl.checked) ? 25 : 0;
+            optionsChar += (symbolsEl.checked) ? 25 : 0;
+            
 
-   _calcPosition: function () {
-    //ponto jogador 1
-    if (this.x > this.marginRight) {
-     if (rightPaddle.y < this.y && this.y < rightPaddle.y + rightPaddle.h) {
-      this._reverseX();
-     } else {
-      this._pontoJogador1();
-     }
-    }
+            const percent = quantChar +  optionsChar * quantChar / 25;
+            securityBarEl.style.width = `${percent}%`;
+        }
+        
+        //funcao de copia de texto
+        function copy(){
+            navigator.clipboard.writeText(passwordTextEl.value);
+        }
 
-    //ponto jogador 2
-    if (this.x < this.marginLeft) {
-     if (leftPaddle.y < this.y && this.y < leftPaddle.y + leftPaddle.h) {
-      this._reverseX();
-     } else {
-      this._pontoJogador2();
-     }
-    }
+        //atribui a copia ao botao de copia
+        document.querySelector("#copy-1").addEventListener("click", copy);
+        document.querySelector("#copy-2").addEventListener("click", copy);
 
 
+        //atribui a geracao ao slide
+        passwordSizeEl.addEventListener("input", function() {
+            passwordLength = passwordSizeEl.value;
+            generatePassword(passwordLength);
+            document.querySelector("#password-legth-text").innerHTML = passwordLength;
+        });
+
+        
+        //atribui o botao de renew
+        document.querySelector("#renew").addEventListener("click", function() {
+            passwordLength = passwordSizeEl.value;
+            generatePassword(passwordLength);
+        });
+
+        //atribui os botoes ao renew
+        uppercaseEl.addEventListener("click", generatePassword);
+        numbersEl.addEventListener("click", generatePassword);
+        symbolsEl.addEventListener("click", generatePassword);
 
 
 
-    //mantem nas margens top e bottom
-    if (this.y > this.marginBottom || this.y < this.marginTop) {
-     this._reverseY();
-    }
-   },
-   
-   //desenha a bolinha
-   draw: function () {
-    canvasCtx.fillStyle = "#fff";
-    canvasCtx.beginPath();
-    canvasCtx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
-    canvasCtx.fill();
+        //configuracao inicial
+        generatePassword(passwordSizeEl.value);
+    </script>
 
-    this._calcPosition();
-    this._move();
-   }
-   
-  }
 
-  function setup() {
-   canvasEl.width = canvasCtx.width = field.w;
-   canvasEl.height = canvasCtx.height = field.h;
-  }
-
-  function draw() {
-   field.draw();
-   line.draw();
-
-   leftPaddle.draw();
-   rightPaddle.draw();
-
-   score.draw();
-
-   ball.draw();
-  }
-
-  window.animateFrame = (function () {
-   return (
-    window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    window.oRequestAnimationFrame ||
-    window.msRequestAnimationFrame ||
-    function (callback) {
-     return window.setTimeout(callback, 1000 / 60)
-    }
-   )
-  })()
-
-  //codigo principal
-  function main() {
-   animateFrame(main);
-   draw();
-  }
-
-  setup();
-  main();
-
-  //le o mouse
-  canvasEl.addEventListener("mousemove", function (e) {
-   mouse.x = e.pageX;
-   mouse.y = e.pageY;
-  })
-
- </script>
-
- 
+    
 </body>
 </html>
